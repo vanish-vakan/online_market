@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--namespace属性：用来指定当前的映射文件和哪个接口进行映射，需要指定接口的文件路径，需要标注包的完整路径接口-->
+
+
+
+
+<mapper namespace="com.expect.crm.mapper.AddressMapper">
+
+    <resultMap id="AddressEntityMap" type="com.expect.crm.entity.Address">
+        <id column="aid" property="aid"></id>
+        <result column="province_code" property="provinceCode"></result>
+        <result column="province_name" property="provinceName"></result>
+        <result column="city_code" property="cityCode"></result>
+        <result column="city_name" property="cityName"></result>
+        <result column="area_code" property="areaCode"></result>
+        <result column="area_name" property="areaName"></result>
+        <result column="is_default" property="isDefault"></result>
+        <result column="created_time" property="createdTime"></result>
+        <result column="modified_time" property="modifiedTime"></result>
+
+
+    </resultMap>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="aid">
+        insert into t_address(
+            uid,name,province_name,province_code,city_name,city_code,area_name,area_code,address,phone,tel,tag,is_default,created_time,modified_time
+        )values (
+            #{uid},#{name},#{provinceName},#{provinceCode},#{cityName},
+            #{cityCode},#{areaName},#{areaCode},#{address},#{phone},#{tel},
+            #{tag},#{isDefault},#{createdTime},#{modifiedTime}
+                        )
+    </insert>
+
+    <select id="countByUid" resultType="java.lang.Integer">
+        select count(*) from t_address where uid=#{uid}
+    </select>
+
+    <select id="findByUid" resultMap="AddressEntityMap">
+        select * from t_address where uid=#{uid}
+        order by is_default desc,created_time desc
+    </select>
+
+    <update id="updateNonDefault">
+        update t_address
+        set is_default=0
+        where uid=#{uid}
+    </update>
+
+    <update id="updateDefaultByAid">
+        update t_address
+        set is_default=1,modified_time=#{modifiedTime}
+        where aid=#{aid}
+    </update>
+
+    <select id="findByAid" resultMap="AddressEntityMap">
+        select * from t_address where aid=#{aid}
+    </select>
+    
+</mapper>
