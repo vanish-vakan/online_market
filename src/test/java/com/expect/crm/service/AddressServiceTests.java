@@ -37,4 +37,8 @@ public class AddressServiceTests {
         addressService.setDefault(13,22);
     }
 
+    @Test
+    public void delete(){
+        addressService.delete(11,22);
+    }
 }

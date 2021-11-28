@@ -13,4 +13,8 @@ public interface AddressService {
     List<Address> getByUid(Integer uid);
 
     void setDefault(Integer aid,Integer uid);
+
+    void delete(Integer aid,Integer uid);
+
+    Address getByAid(Integer aid, Integer uid);
 }

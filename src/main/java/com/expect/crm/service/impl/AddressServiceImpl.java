@@ -93,4 +93,53 @@ public class AddressServiceImpl implements AddressService {
 
     }
 
+    @Override
+    public void delete(Integer aid, Integer uid) {
+        Address result = addressMapper.findByAid(aid);
+        if (result == null) {
+            throw new AddressNotFoundException("收货地址不存在");
+        }
+        if(!result.getUid().equals(uid)){
+            throw new AccessDeniedException("非法数据访问");
+        }
+        Integer rows=addressMapper.deleteByAid(aid);
+        if(rows!=1){
+            throw new DeleteException("删除数据示产生异常");
+        }
+
+        Integer count=addressMapper.countByUid(uid);
+        if(count==0){
+            return;
+        }
+
+        if(result.getIsDefault()==1){
+            return;
+        }
+
+        Address address=addressMapper.findLastModified(uid);
+        rows =addressMapper.updateDefaultByAid(address.getAid(),new Date());
+
+        if(rows!=1){
+            throw new UpdateException("更新数据时产生的异常");
+        }
+    }
+
+    @Override
+    public Address getByAid(Integer aid, Integer uid) {
+        // 根据收货地址数据id，查询收货地址详情
+        Address address = addressMapper.findByAid(aid);
+
+        if (address == null) {
+            throw new AddressNotFoundException("尝试访问的收货地址数据不存在");
+        }
+        if (!address.getUid().equals(uid)) {
+            throw new AccessDeniedException("非法访问");
+        }
+        address.setProvinceCode(null);
+        address.setCityCode(null);
+        address.setAreaCode(null);
+        address.setCreatedTime(null);
+        address.setModifiedTime(null);
+        return address;
+    }
 }

@@ -25,4 +25,10 @@ public interface AddressMapper {
                                @Param("modifiedTime") Date modifiedTime);
 
 
+    Integer deleteByAid(Integer aid);
+
+    Address findLastModified(Integer uid);
+
+
+
 }

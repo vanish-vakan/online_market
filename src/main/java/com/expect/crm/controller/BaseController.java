@@ -32,12 +32,21 @@ public class BaseController implements Serializable {
         }else if(e instanceof AddressNotFoundException){
             result.setState(4005);
             result.setMessage("收货地址不存在的异常");
+        }else if (e instanceof ProductNotFoundException) {
+            result.setState(4006);
+            result.setMessage("商品不存在的异常");
+        }else if (e instanceof CartNotFoundException) {
+            result.setState(4007);
+            result.setMessage("购物车订单商品不存在");
         }else if(e instanceof InsertException){
             result.setState(5000);
             result.setMessage("注册时产生位置的异常");
         }else if(e instanceof UpdateException){
             result.setState(5001);
             result.setMessage("更新数据时产生未知的异常");
+        }else if(e instanceof DeleteException){
+            result.setState(5002);
+            result.setMessage("删除数据产生的异常");
         }else if(e instanceof FileEmptyException){
             result.setState(6001);
             result.setMessage("文件为空的异常");

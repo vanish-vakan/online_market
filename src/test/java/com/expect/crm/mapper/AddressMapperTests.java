@@ -2,7 +2,6 @@ package com.expect.crm.mapper;
 
 
 import com.expect.crm.entity.Address;
-import net.bytebuddy.agent.builder.AgentBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +54,13 @@ public class AddressMapperTests {
         addressMapper.updateDefaultByAid(14,new Date());
     }
 
+    @Test
+    public void deleteByAid(){
+        addressMapper.deleteByAid(13);
+    }
+
+    @Test
+    public void findLastModified(){
+        System.out.println(addressMapper.findLastModified(22));
+    }
 }
